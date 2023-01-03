@@ -1,7 +1,6 @@
 package codes.dirty.sns.crawler.module.race.service;
 
-import codes.dirty.sns.crawler.module.race.model.RaceProfile;
-import org.assertj.core.api.JUnitSoftAssertions;
+import codes.dirty.sns.crawler.module.race.model.RaceHorseProfile;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Assertions;
@@ -16,22 +15,21 @@ import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
-class RaceProfileSchedulingServiceTest {
+class RaceHorseProfileCrawlingServiceTest {
     private final String PROFILE_SAMPLE = "RACE_profile_sample.html";
-    private final String RESULT_SAMPLE = "RACE_result_sample.html";
 
     @Spy
-    private RaceProfileSchedulingService raceProfileSchedulingService;
+    private RaceProfileCrawlingService raceProfileCrawlingService;
 
     @Test
     void parseTest() throws IOException {
         // given
         ClassLoader classLoader = getClass().getClassLoader();
-        final Document doc = Jsoup.parse(new File(classLoader.getResource("html").getPath()+"\\"+ PROFILE_SAMPLE), null);
+        final Document doc = Jsoup.parse(new File(classLoader.getResource("html").getPath() + "\\" + PROFILE_SAMPLE), null);
 
         // when
-        List<RaceProfile> parseList = raceProfileSchedulingService.parseHtmlForHorseProfile(doc);
-        RaceProfile profile = parseList.stream().findFirst().orElseThrow();
+        List<RaceHorseProfile> parseList = raceProfileCrawlingService.parseHtmlForHorseProfile(doc);
+        RaceHorseProfile profile = parseList.stream().findFirst().orElseThrow(() -> new RuntimeException());
 
         // then
         Assertions.assertNotNull(profile);
